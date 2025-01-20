@@ -13,6 +13,7 @@ var fire_rate = 0.5
 var last_fire_time = 0
 var bullet_speed = 12
 var bullet_lifetime = 10
+var can_shoot = true
 
 func _ready():
 	# Set up anything necessary when the scene starts
