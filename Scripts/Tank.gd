@@ -42,6 +42,6 @@ func _process(delta):
 func shoot_bullet():
 	# Instantiate and shoot a bullet
 	var bullet = bullet_scene.instantiate()
-	bullet.position = position
-	bullet.rotation = rotation
+	bullet.position = $TankTurret/Marker2D.global_position
+	bullet.rotation = $TankSprite.global_rotation 
 	get_parent().add_child(bullet)
