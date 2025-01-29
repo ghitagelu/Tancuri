@@ -1,28 +1,14 @@
-# Bullet script (Bullet.gd)
-# Attach this to the Bullet.tscn scene
+extends RigidBody2D
 
-extends Area2D
+@export var speed: float = 500.0  # Bullet speed
+@export var lifetime: float = 3.0  # Bullet lifetime before disappearing
 
-# Variables for bullet behavior
-var speed = 400
-
-func _process(delta):
-	# Move the bullet forward
-	position += Vector2(0, -1).rotated(rotation) * speed * delta
-
-	# Remove bullet if it goes offscreen
-	if not get_viewport_rect().has_point(global_position):
-		queue_free()
-
-func _on_Bullet_body_entered(body):
-	# Handle collision with other objects (e.g., other tanks or walls)
+func _ready():
+	# Auto-destroy the bullet after 'lifetime' seconds
+	await get_tree().create_timer(lifetime).timeout
 	queue_free()
-	# Add any other collision logic here
 
-# Input actions
-# Add these in the Input Map (Project Settings -> Input Map):
-# - "ui_up" for moving forward
-# - "ui_down" for moving backward
-# - "ui_left" for rotating left
-# - "ui_right" for rotating right
-# - "shoot" for firing bullets
+func _physics_process(delta):
+	# Move bullet forward in the direction it's facing
+	linear_velocity = -transform.y * speed  # Use transform.y to move "forward"
+	#linear_velocity = Vector2(0, -1).rotated(rotation) * speed

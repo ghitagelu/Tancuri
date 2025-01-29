@@ -1,6 +1,3 @@
-# AZ Tank-like game in Godot (Starter Project)
-# This script sets up a basic tank movement and shooting system.
-
 extends Node2D
 
 # Variables for tank movement
@@ -9,15 +6,9 @@ var rotation_speed = 3
 
 # Variables for shooting
 var bullet_scene = preload("res://Scenes/Bullet.tscn")
-var fire_rate = 0.5
+var fire_rate = 2.5
 var last_fire_time = 0
-var bullet_speed = 12
-var bullet_lifetime = 10
 var can_shoot = true
-
-func _ready():
-	# Set up anything necessary when the scene starts
-	pass
 
 func _process(delta):
 	# Handle tank movement
@@ -35,13 +26,19 @@ func _process(delta):
 	var direction = Vector2(0, -1).rotated(rotation)
 	position += direction * input_vector.y * speed * delta
 
-	# Handle shooting
-	if Input.is_action_pressed("shoot") :
+	# Handle shooting with fire rate control
+	if Input.is_action_pressed("shoot") and can_shoot:
 		shoot_bullet()
+		can_shoot = false
+		await get_tree().create_timer(fire_rate).timeout
+		can_shoot = true
 
 func shoot_bullet():
-	# Instantiate and shoot a bullet
+	# Instantiate bullet
 	var bullet = bullet_scene.instantiate()
-	bullet.position = $TankTurret/Marker2D.global_position
-	bullet.rotation = $TankSprite.global_rotation 
+	
+	# Set bullet position and rotation based on turret
+	bullet.global_transform = $TankTurret/Marker2D.global_transform
+	
+	# Add bullet to scene
 	get_parent().add_child(bullet)

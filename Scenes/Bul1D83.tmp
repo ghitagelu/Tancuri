@@ -15,13 +15,12 @@ script = ExtResource("1_811h6")
 rotation = 1.5708
 scale = Vector2(2.125, 2.03125)
 texture = ExtResource("1_vsf1d")
-flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_41ouv")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-position = Vector2(0, -13)
+position = Vector2(0, 11)
 scale = Vector2(2.125, 2.03125)
 shape = SubResource("CircleShape2D_02mx0")
